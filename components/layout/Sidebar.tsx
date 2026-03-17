@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import {
   ChevronLeft,
   LayoutDashboard,
@@ -9,14 +10,17 @@ import {
   Users,
   BarChart,
   Settings,
+  Sparkles,
 } from "lucide-react";
 
 const navItems = [
-  { name: "Dashboard", icon: LayoutDashboard },
-  { name: "Orders", icon: ShoppingCart },
-  { name: "Customers", icon: Users },
-  { name: "Analytics", icon: BarChart },
-  { name: "Settings", icon: Settings },
+  { name: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
+  { name: "Inventory", icon: ShoppingCart, href: "/dashboard/inventory" },
+  { name: "Customers", icon: Users, href: "/dashboard/customers" },
+  { name: "Analytics", icon: BarChart, href: "/dashboard/analytics" },
+  { name: "AI Assistant", icon: Sparkles, href: "/dashboard/ai" },
+  { name: "Financials", icon: BarChart, href: "/dashboard/financials" },
+  { name: "Settings", icon: Settings, href: "/dashboard/settings" },
 ];
 
 const Sidebar = () => {
@@ -60,14 +64,14 @@ const Sidebar = () => {
       </div>
       <nav className="mt-8">
         {navItems.map((item) => (
-          <a
+          <Link
             key={item.name}
-            href="#"
+            href={item.href}
             className="flex items-center gap-4 p-4 mx-2 rounded-lg hover:bg-secondary transition-colors duration-200"
           >
             <item.icon className="w-6 h-6 text-electric-purple" />
             {!isCollapsed && <span>{item.name}</span>}
-          </a>
+          </Link>
         ))}
       </nav>
       <div className="absolute bottom-4 left-4">

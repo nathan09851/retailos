@@ -10,4 +10,73 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  sku           String   @unique
+  category      String
+  price         Float
+  cost          Float
+  stockLevel    Int
+  reorderPoint  Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Customer {
+  id             String   @id @default(cuid())
+  firstName      String
+  lastName       String
+  email          String   @unique
+  phone          String?
+  totalSpent     Float    @default(0)
+  orderCount     Int      @default(0)
+  lastSeen       DateTime @default(now())
+  segment        String   @default("New")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  orders         Order[]
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id])
+  total       Float
+  status      String   @default("completed")
+  items       Int      @default(1)
+  createdAt   DateTime @default(now())
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  type        String   // income or expense
+  category    String
+  amount      Float
+  description String?
+  date        DateTime @default(now())
+}
+
+model AIInsight {
+  id          String   @id @default(cuid())
+  type        String   // "risk", "opportunity", "action"
+  content     String
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
 }
