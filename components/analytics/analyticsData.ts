@@ -30,11 +30,11 @@ export const CATEGORY_SALES_PREV: CategorySales[] = CATEGORY_SALES.map((d) => ({
 }));
 
 export const CATEGORY_COLORS: Record<string, string> = {
-  Electronics: "#6366f1",
-  HomeGoods:   "#8b5cf6",
-  Kitchen:     "#a78bfa",
-  Outdoor:     "#10b981",
-  Accessories: "#f59e0b",
+  Electronics: "#A680FF", // Purple
+  HomeGoods:   "#7C3AED", // Deeper Purple
+  Kitchen:     "#D97757", // Orange
+  Outdoor:     "#E8E2D9", // Clay
+  Accessories: "#1D1D1D", // Charcoal
 };
 
 // ── Top products ──────────────────────────────────────────────────────────────
@@ -51,11 +51,11 @@ export const TOP_PRODUCTS: TopProduct[] = [
 
 // ── Customer acquisition funnel ───────────────────────────────────────────────
 export const FUNNEL_STEPS: FunnelStep[] = [
-  { name: "Website Visitors",  value: 48200, color: "#6366f1" },
-  { name: "Product Views",     value: 21400, color: "#7c3aed" },
-  { name: "Added to Cart",     value: 8900,  color: "#8b5cf6" },
-  { name: "Reached Checkout",  value: 5200,  color: "#a78bfa" },
-  { name: "Completed Purchase",value: 3100,  color: "#10b981" },
+  { name: "Website Visitors",  value: 48200, color: "#A680FF" },
+  { name: "Product Views",     value: 21400, color: "#9333EA" },
+  { name: "Added to Cart",     value: 8900,  color: "#7C3AED" },
+  { name: "Reached Checkout",  value: 5200,  color: "#D97757" },
+  { name: "Completed Purchase",value: 3100,  color: "#1D1D1D" },
 ];
 
 // ── Heatmap (7 days × 24 hours) ──────────────────────────────────────────────

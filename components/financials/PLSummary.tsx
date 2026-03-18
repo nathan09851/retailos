@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { TrendingUp, TrendingDown, DollarSign } from "lucide-react";
 import { PLMetric } from "./types";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
 interface PLSummaryProps {
   metrics: PLMetric[];
@@ -28,7 +29,7 @@ export default function PLSummary({ metrics }: PLSummaryProps) {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.07, type: "spring", stiffness: 120 }}
-            className="bg-card border border-border rounded-2xl p-5 flex flex-col gap-3"
+            className="bg-card border border-border/50 rounded-2xl p-5 flex flex-col gap-3 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300"
           >
             <div className="flex items-center justify-between">
               <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{m.label}</p>
@@ -37,7 +38,13 @@ export default function PLSummary({ metrics }: PLSummaryProps) {
               </div>
             </div>
 
-            <p className="text-2xl font-bold tracking-tight">{fmt(m.value)}</p>
+            <p className="text-2xl font-bold tracking-tight">
+              <AnimatedCounter
+                end={m.value}
+                decimals={0}
+                prefix="$"
+              />
+            </p>
 
             <div className={`flex items-center gap-1 text-xs font-semibold ${positive ? "text-emerald-400" : "text-red-400"}`}>
               {up ? <TrendingUp size={13} /> : <TrendingDown size={13} />}

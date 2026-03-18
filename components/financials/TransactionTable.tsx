@@ -85,7 +85,7 @@ export default function TransactionTable({ transactions }: TransactionTableProps
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ delay: i * 0.02 }}
-                  className={`border-b border-border last:border-0 hover:bg-muted/25 transition-colors ${i % 2 === 0 ? "" : "bg-muted/10"}`}
+                  className={`border-b border-border last:border-0 hover:bg-muted/50 border-l-4 border-l-transparent hover:border-l-primary transition-all group ${i % 2 === 0 ? "" : "bg-muted/5"}`}
                 >
                   <td className="px-4 py-3 text-muted-foreground text-xs whitespace-nowrap">
                     {new Date(txn.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}

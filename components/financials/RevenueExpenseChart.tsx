@@ -34,12 +34,12 @@ export default function RevenueExpenseChart({ data }: RevenueExpenseChartProps) 
         <AreaChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%"  stopColor="#6366f1" stopOpacity={0.35} />
-              <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+              <stop offset="5%"  stopColor="#A680FF" stopOpacity={0.35} />
+              <stop offset="95%" stopColor="#A680FF" stopOpacity={0} />
             </linearGradient>
             <linearGradient id="expGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%"  stopColor="#ef4444" stopOpacity={0.25} />
-              <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
+              <stop offset="5%"  stopColor="#D97757" stopOpacity={0.25} />
+              <stop offset="95%" stopColor="#D97757" stopOpacity={0} />
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
@@ -57,7 +57,7 @@ export default function RevenueExpenseChart({ data }: RevenueExpenseChartProps) 
             type="monotone"
             dataKey="revenue"
             name="Revenue"
-            stroke="#6366f1"
+            stroke="#A680FF"
             strokeWidth={2.5}
             fill="url(#revGrad)"
             dot={false}
@@ -67,7 +67,7 @@ export default function RevenueExpenseChart({ data }: RevenueExpenseChartProps) 
             type="monotone"
             dataKey="expenses"
             name="Expenses"
-            stroke="#ef4444"
+            stroke="#D97757"
             strokeWidth={2}
             fill="url(#expGrad)"
             dot={false}

@@ -13,12 +13,12 @@ const HOURS = Array.from({ length: 24 }, (_, i) => i);
 
 function getColor(value: number, max: number): string {
   const intensity = value / max;
-  if (intensity < 0.15) return "rgba(99, 102, 241, 0.08)";
-  if (intensity < 0.3) return "rgba(99, 102, 241, 0.2)";
-  if (intensity < 0.5) return "rgba(99, 102, 241, 0.4)";
-  if (intensity < 0.7) return "rgba(99, 102, 241, 0.6)";
-  if (intensity < 0.85) return "rgba(99, 102, 241, 0.8)";
-  return "rgba(99, 102, 241, 1)";
+  if (intensity < 0.15) return "rgba(166, 128, 255, 0.08)";
+  if (intensity < 0.3) return "rgba(166, 128, 255, 0.2)";
+  if (intensity < 0.5) return "rgba(166, 128, 255, 0.4)";
+  if (intensity < 0.7) return "rgba(166, 128, 255, 0.6)";
+  if (intensity < 0.85) return "rgba(166, 128, 255, 0.8)";
+  return "rgba(166, 128, 255, 1)";
 }
 
 export default function SalesHeatmap({ data }: Props) {

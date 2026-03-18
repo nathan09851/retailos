@@ -28,13 +28,13 @@ export default function SendMessageModal({ open, customerName, onClose, onSend }
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}
+            className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.94, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.94, y: 20 }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            transition={{ type: "spring", stiffness: 450, damping: 30, mass: 0.8 }}
             className="relative z-10 w-full max-w-md bg-card border border-border rounded-2xl shadow-2xl"
           >
             <div className="flex items-center justify-between px-6 py-5 border-b border-border">

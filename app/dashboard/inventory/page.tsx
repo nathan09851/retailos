@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Package } from "lucide-react";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
 import { Product, ViewMode, SortOption, StockStatus } from "@/components/inventory/types";
 import { MOCK_PRODUCTS } from "@/components/inventory/inventoryData";
@@ -12,6 +13,7 @@ import ProductTable from "@/components/inventory/ProductTable";
 import StockAlerts from "@/components/inventory/StockAlerts";
 import AddProductModal from "@/components/inventory/AddProductModal";
 import CSVImport from "@/components/inventory/CSVImport";
+import { useEffect } from "react";
 
 function calcStatus(stock: number, reorderPoint: number): StockStatus {
   if (stock === 0 || stock < reorderPoint * 0.25) return "Critical";
@@ -28,6 +30,19 @@ export default function InventoryPage() {
   const [sortBy, setSortBy] = useState<SortOption>("stock-asc");
   const [showAddModal, setShowAddModal] = useState(false);
   const [showCSVModal, setShowCSVModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/inventory")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setProducts(data);
+        }
+      })
+      .catch((err) => console.error("Inventory load error:", err))
+      .finally(() => setLoading(false));
+  }, []);
 
   /* ── Derived: Stock Alerts ───────────────────────── */
   const alerts = useMemo(
@@ -106,20 +121,26 @@ export default function InventoryPage() {
         {/* KPI Summary Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: "Total SKUs", value: totalSKUs, color: "text-foreground" },
-            { label: "Inventory Value", value: `$${totalValue.toLocaleString("en-US", { maximumFractionDigits: 0 })}`, color: "text-foreground" },
-            { label: "Critical Items", value: criticalCount, color: criticalCount > 0 ? "text-red-400" : "text-emerald-400" },
-            { label: "Avg. Margin", value: `${avgMargin}%`, color: avgMargin > 40 ? "text-emerald-400" : avgMargin > 25 ? "text-yellow-400" : "text-red-400" },
+            { label: "Total SKUs", value: totalSKUs, color: "text-foreground", prefix: "" },
+            { label: "Inventory Value", value: totalValue, color: "text-foreground", prefix: "$" },
+            { label: "Critical Items", value: criticalCount, color: criticalCount > 0 ? "text-red-400" : "text-emerald-400", prefix: "" },
+            { label: "Avg. Margin", value: avgMargin, color: avgMargin > 40 ? "text-emerald-400" : avgMargin > 25 ? "text-yellow-400" : "text-red-400", prefix: "", suffix: "%" },
           ].map((kpi, i) => (
             <motion.div
               key={kpi.label}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.07 }}
-              className="bg-card border border-border rounded-xl px-5 py-4"
+              className="bg-card border border-border rounded-xl px-5 py-4 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
             >
               <p className="text-xs text-muted-foreground font-medium mb-1">{kpi.label}</p>
-              <p className={`text-2xl font-bold ${kpi.color}`}>{kpi.value}</p>
+              <p className={`text-2xl font-bold ${kpi.color}`}>
+                <AnimatedCounter
+                  end={kpi.value}
+                  prefix={kpi.prefix}
+                />
+                {kpi.suffix}
+              </p>
             </motion.div>
           ))}
         </div>

@@ -15,9 +15,20 @@ async function getData(): Promise<Order[]> {
 
 const OrdersPage = () => {
   const [data, setData] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getData().then(setData);
+    getData()
+      .then((res: any) => {
+        // Handle both raw array (old) and paginated object (new)
+        if (Array.isArray(res)) {
+          setData(res);
+        } else if (res && res.orders) {
+          setData(res.orders);
+        }
+      })
+      .catch((err) => console.error("Orders load error:", err))
+      .finally(() => setLoading(false));
   }, []);
 
   return (

@@ -223,7 +223,7 @@ export default function CustomersPage() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ delay: i * 0.02 }}
-                      className="border-b border-border last:border-0 hover:bg-muted/25 transition-colors group"
+                      className="border-b border-border last:border-0 hover:bg-muted/50 border-l-4 border-l-transparent hover:border-l-primary transition-all group"
                     >
                       {/* Avatar + Name + Email */}
                       <td className="px-4 py-3">

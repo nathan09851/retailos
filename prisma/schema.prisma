@@ -4,17 +4,13 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -22,6 +18,7 @@ model User {
   email     String   @unique
   name      String?
   role      String   @default("admin")
+  settings  Json?    @default("{}")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -49,6 +46,8 @@ model Customer {
   orderCount     Int      @default(0)
   lastSeen       DateTime @default(now())
   segment        String   @default("New")
+  deletedAt      DateTime?
+  tags          String[] @default([])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   orders         Order[]
@@ -79,4 +78,31 @@ model AIInsight {
   content     String
   isRead      Boolean  @default(false)
   createdAt   DateTime @default(now())
+}
+
+model AIChat {
+  id        String   @id @default(cuid())
+  userId    String
+  role      String   // "user" or "assistant"
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model Report {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // 'daily', 'weekly', etc.
+  data      Json
+  narrative String?
+  createdAt DateTime @default(now())
+}
+
+model ReportSchedule {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  frequency String   // 'daily', 'weekly', 'monthly'
+  email     String
+  dayOfWeek Int?     // 0-6
+  createdAt DateTime @default(now())
 }

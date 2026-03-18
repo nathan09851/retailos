@@ -1,8 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RetailOS
 
-## Getting Started
+RetailOS is a modern, high-fidelity retail management dashboard built for performance and intelligence.
 
-First, run the development server:
+## 🚀 Getting Started
+
+1.  **Install dependencies**: `npm install`
+2.  **Generate Database Client**: `npx prisma generate` (Run this inside the `retailos` folder)
+3.  **Run Dev Server**: `npm run dev`
+
+### 💡 Demo Mode
+If the Prisma client is not generated or the database is unavailable, the dashboard will automatically fall back to **Demo Mode** using high-quality mock data. This allows you to explore the UI/UX polish and AI interactions immediately.
+
+---
+
+This is a [Next.js](https://nextjs.org) project.
 
 ```bash
 npm run dev

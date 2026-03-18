@@ -36,6 +36,13 @@ const config: Config = {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
+        claude: {
+          beige: "#F5F2ED",
+          charcoal: "#1D1D1D",
+          purple: "#A680FF",
+          orange: "#D97757",
+          clay: "#E8E2D9",
+        },
         "electric-blue": "#00FFFF",
         "electric-purple": "#BF00FF",
         popover: {

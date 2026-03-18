@@ -103,14 +103,14 @@ export default function AIChatPage() {
           )
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Chat error:", error);
       setMessages((prev) => [
         ...prev,
         {
-          id: "error",
+          id: "error-" + Date.now(),
           role: "assistant",
-          content: "I'm sorry, I encountered an error connecting to my core brain. Please try again in a moment.",
+          content: "I'm having trouble connecting to my brain right now. Please check your internet or try again. (Technical error: " + error.message + ")",
         },
       ]);
     } finally {
@@ -149,14 +149,14 @@ export default function AIChatPage() {
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-card/50 backdrop-blur-md sticky top-0 z-10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center">
-            <Sparkles className="text-primary" size={20} />
+          <div className="w-10 h-10 rounded-xl bg-claude-purple/15 flex items-center justify-center">
+            <Sparkles className="text-claude-purple" size={20} />
           </div>
           <div>
-            <h1 className="text-lg font-bold tracking-tight">AI Business Advisor</h1>
+            <h1 className="text-lg font-bold tracking-tight text-claude-charcoal dark:text-claude-beige">Claude AI Advisor</h1>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Live Logic Engine</p>
+              <span className="w-2 h-2 rounded-full bg-claude-orange animate-pulse" />
+              <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Premium Intelligence</p>
             </div>
           </div>
         </div>
