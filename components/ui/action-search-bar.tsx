@@ -87,7 +87,7 @@ const allActions = [
     },
 ];
 
-function ActionSearchBar({ actions = allActions }: { actions?: Action[] }) {
+function ActionSearchBar({ actions = allActions, className, hideLabel }: { actions?: Action[], className?: string, hideLabel?: boolean }) {
     const router = useRouter();
     const [query, setQuery] = useState("");
     const [result, setResult] = useState<SearchResult | null>(null);
@@ -172,15 +172,17 @@ function ActionSearchBar({ actions = allActions }: { actions?: Action[] }) {
     };
 
     return (
-        <div className="w-full max-w-xl mx-auto">
+        <div className={className || "w-full max-w-xl mx-auto"}>
             <div className="relative flex flex-col justify-start items-center">
-                <div className="w-full max-w-sm sticky top-0 bg-background z-10 pt-4 pb-1">
-                    <label
-                        className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block"
-                        htmlFor="search"
-                    >
-                        Search Commands
-                    </label>
+                <div className="w-full max-w-sm sticky top-0 z-10 pt-4 pb-1">
+                    {!hideLabel && (
+                        <label
+                            className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block"
+                            htmlFor="search"
+                        >
+                            Search Commands
+                        </label>
+                    )}
                     <div className="relative">
                         <Input
                             type="text"

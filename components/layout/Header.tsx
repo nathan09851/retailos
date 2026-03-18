@@ -4,6 +4,8 @@ import { Bell, Search, Bot } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import { ActionSearchBar, Action } from "@/components/ui/action-search-bar";
+import { LineChart, PackageCheck, BrainCircuit, PieChart } from "lucide-react";
 
 const Header = () => {
   const router = useRouter();
@@ -19,6 +21,45 @@ const Header = () => {
     });
   };
 
+  const headerCommands: Action[] = [
+    {
+      id: "1",
+      label: "View Revenue Report",
+      icon: <LineChart className="h-4 w-4 text-blue-500" />,
+      description: "Financials",
+      short: "⌘R",
+      end: "Analytics",
+      href: "/dashboard/financials"
+    },
+    {
+      id: "2",
+      label: "Check Low Stock",
+      icon: <PackageCheck className="h-4 w-4 text-orange-500" />,
+      description: "Inventory",
+      short: "⌘I",
+      end: "Action",
+      href: "/dashboard/inventory"
+    },
+    {
+      id: "3",
+      label: "Ask AI Assistant",
+      icon: <BrainCircuit className="h-4 w-4 text-purple-500" />,
+      description: "GPT-4 Retail Model",
+      short: "⌘Enter",
+      end: "AI",
+      href: "/dashboard/ai"
+    },
+    {
+      id: "4",
+      label: "Customer Demographics",
+      icon: <PieChart className="h-4 w-4 text-green-500" />,
+      description: "Insights",
+      short: "",
+      end: "Reports",
+      href: "/dashboard/customers"
+    },
+  ];
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/60 backdrop-blur-xl transition-all duration-300">
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
@@ -28,16 +69,8 @@ const Header = () => {
             <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/50 leading-none mb-1">Intelligence Layer</h2>
             <p className="text-xs font-bold text-foreground opacity-90 tracking-tight">System Status: <span className="text-emerald-500">Optimal</span></p>
           </div>
-          <div className="relative group max-w-md">
-            <Search className="absolute w-4 h-4 text-muted-foreground group-focus-within:text-primary left-4 top-1/2 -translate-y-1/2 transition-colors duration-300" />
-            <input
-              type="text"
-              placeholder="Search data, commands, or AI..."
-              className="w-80 pl-11 pr-12 py-3 text-xs bg-muted/40 border border-border/40 rounded-2xl focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 focus:w-96 transition-all duration-500 placeholder:text-muted-foreground/30 font-medium shadow-inner"
-            />
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 px-2 py-1 rounded-lg bg-background border border-border/50 text-[10px] font-black text-muted-foreground/50 opacity-0 group-focus-within:opacity-100 transition-all duration-300 transform scale-90 group-focus-within:scale-100 shadow-sm">
-              ⌘K
-            </div>
+          <div className="relative group max-w-md w-80 lg:w-96 flex items-center -mt-3">
+            <ActionSearchBar className="w-full" actions={headerCommands} hideLabel />
           </div>
         </div>
         <div className="flex items-center gap-4">
