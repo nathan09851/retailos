@@ -47,6 +47,17 @@ function StockProgress({ stock, reorderPoint }: { stock: number, reorderPoint: n
   );
 }
 
+function Sparkline({ data }: { data: number[] }) {
+  const max = Math.max(...data);
+  return (
+    <div className="flex items-end gap-[2px] h-6 w-16" title="7-day velocity">
+      {data.map((val, i) => (
+        <div key={i} className="flex-1 bg-primary/40 hover:bg-primary rounded-t-sm transition-colors duration-200" style={{ height: `${Math.max(10, (val / max) * 100)}%` }} />
+      ))}
+    </div>
+  );
+}
+
 function InlineStockEdit({ value, onSave }: InlineEditProps) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(String(value));
@@ -127,6 +138,7 @@ export default function ProductTable({ products, onStockUpdate, sortBy, onSortCh
             <th className="px-4 py-3 text-left font-semibold text-muted-foreground w-12"></th>
             <th className="px-4 py-3 text-left font-semibold text-muted-foreground">Product</th>
             <th className="px-4 py-3 text-left font-semibold text-muted-foreground">Category</th>
+            <th className="px-4 py-3 text-left font-semibold text-muted-foreground w-20">Velocity</th>
             <th
               className="px-6 py-4 text-right font-bold text-muted-foreground uppercase tracking-widest text-[10px] cursor-pointer hover:text-foreground select-none transition-colors"
               onClick={() => handleColSort("stock")}
@@ -172,6 +184,9 @@ export default function ProductTable({ products, onStockUpdate, sortBy, onSortCh
                 </td>
                 <td className="px-6 py-4">
                   <span className="px-2 py-1 rounded-lg bg-secondary/50 text-[11px] font-medium text-muted-foreground">{p.category}</span>
+                </td>
+                <td className="px-6 py-4">
+                  <Sparkline data={p.name.length % 2 === 0 ? [10, 15, 8, 22, 14, 25, 18] : [5, 12, 15, 9, 8, 20, 26]} />
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex flex-col items-end gap-1">

@@ -14,6 +14,12 @@ import {
   Settings,
   Sparkles,
   Package,
+  RefreshCw,
+  Globe,
+  CalendarDays,
+  BellRing,
+  FileBarChart,
+  ShoppingBag,
 } from "lucide-react";
 
 interface NavItem {
@@ -23,14 +29,19 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
-  { name: "Inventory", icon: ShoppingCart, href: "/dashboard/inventory" },
-  { name: "Customers", icon: Users, href: "/dashboard/customers" },
-  { name: "Analytics", icon: BarChart, href: "/dashboard/analytics" },
-  { name: "AI Assistant", icon: Sparkles, href: "/dashboard/ai" },
-  { name: "Financials", icon: BarChart, href: "/dashboard/financials" },
-  { name: "Reports", icon: BarChart, href: "/dashboard/reports" },
-  { name: "Settings", icon: Settings, href: "/dashboard/settings" },
+  { name: "Dashboard",         icon: LayoutDashboard, href: "/dashboard" },
+  { name: "Inventory",         icon: Package,         href: "/dashboard/inventory" },
+  { name: "Inventory Sync",    icon: RefreshCw,       href: "/dashboard/inventory-sync" },
+  { name: "Orders",            icon: ShoppingBag,     href: "/dashboard/orders" },
+  { name: "Customers",         icon: Users,           href: "/dashboard/customers" },
+  { name: "Omnichannel",       icon: Globe,           href: "/dashboard/omnichannel" },
+  { name: "Financials",        icon: BarChart,        href: "/dashboard/financials" },
+  { name: "Fin. Calendar",     icon: CalendarDays,    href: "/dashboard/financial-calendar" },
+  { name: "Smart Alerts",      icon: BellRing,        href: "/dashboard/smart-alerts" },
+  { name: "AI Assistant",      icon: Sparkles,        href: "/dashboard/ai" },
+  { name: "Analytics",         icon: FileBarChart,    href: "/dashboard/analytics" },
+  { name: "Reports",           icon: BarChart,        href: "/dashboard/reports" },
+  { name: "Settings",          icon: Settings,        href: "/dashboard/settings" },
 ];
 
 const Sidebar = () => {
@@ -57,7 +68,7 @@ const Sidebar = () => {
     <motion.div
       initial={false}
       animate={{ width: isCollapsed ? 80 : 280 }}
-      className={`relative h-screen flex flex-col transition-[width] duration-500 ease-in-out border-r border-border/50 bg-background/60 backdrop-blur-xl z-50`}
+      className={`hidden md:flex relative h-screen flex-col transition-[width] duration-500 ease-in-out border-r border-border/50 bg-background/60 backdrop-blur-xl z-50`}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-primary/5 pointer-events-none" />
       

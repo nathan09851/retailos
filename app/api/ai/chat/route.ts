@@ -21,8 +21,9 @@ export async function POST(req: NextRequest) {
     const readableStream = new ReadableStream({
       async start(controller) {
         for await (const chunk of stream) {
-          if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
-            controller.enqueue(chunk.delta.text);
+          const content = (chunk as any).choices?.[0]?.delta?.content || "";
+          if (content) {
+            controller.enqueue(content);
           }
         }
         controller.close();

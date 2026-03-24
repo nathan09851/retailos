@@ -18,6 +18,80 @@ interface SettingToast {
   message: string;
 }
 
+// Map theme name → [dark:boolean, CSS vars]
+const THEME_VARS: Record<string, [boolean, Record<string, string>]> = {
+  "Claude Classic": [false, {
+    "--background": "40 30% 96%",
+    "--foreground": "224 71% 4%",
+    "--card": "0 0% 100%",
+    "--border": "220 13% 91%",
+    "--muted": "220 14% 96%",
+    "--muted-foreground": "220 9% 46%",
+  }],
+  "Claude Charcoal": [true, {
+    "--background": "224 24% 8%",
+    "--foreground": "210 40% 98%",
+    "--card": "224 24% 11%",
+    "--border": "215 20% 18%",
+    "--muted": "215 20% 15%",
+    "--muted-foreground": "215 16% 55%",
+  }],
+  "Serene Clay": [false, {
+    "--background": "30 25% 90%",
+    "--foreground": "25 40% 12%",
+    "--card": "30 20% 96%",
+    "--border": "25 15% 80%",
+    "--muted": "30 15% 85%",
+    "--muted-foreground": "25 15% 45%",
+  }],
+  "Deep Amethyst": [true, {
+    "--background": "270 60% 6%",
+    "--foreground": "270 20% 96%",
+    "--card": "270 50% 10%",
+    "--border": "270 30% 20%",
+    "--muted": "270 30% 15%",
+    "--muted-foreground": "270 15% 55%",
+  }],
+  "Slate Grey": [true, {
+    "--background": "215 25% 10%",
+    "--foreground": "215 20% 95%",
+    "--card": "215 25% 14%",
+    "--border": "215 20% 22%",
+    "--muted": "215 20% 18%",
+    "--muted-foreground": "215 12% 55%",
+  }],
+};
+
+// Accent colors as HSL strings
+const ACCENT_HSL: Record<string, string> = {
+  "#8b5cf6": "258 90% 66%",
+  "#ec4899": "330 81% 60%",
+  "#10b981": "160 84% 39%",
+  "#3b82f6": "217 91% 60%",
+  "#f59e0b": "38 92% 50%",
+};
+
+function applyTheme(themeName: string) {
+  const [isDark, vars] = THEME_VARS[themeName] || THEME_VARS["Claude Classic"];
+  const root = document.documentElement;
+  if (isDark) root.classList.add("dark");
+  else root.classList.remove("dark");
+  Object.entries(vars).forEach(([key, val]) => root.style.setProperty(key, val));
+  localStorage.setItem("retailos-theme", themeName);
+}
+
+function applyAccent(hex: string) {
+  const hsl = ACCENT_HSL[hex] || "258 90% 66%";
+  document.documentElement.style.setProperty("--primary", hsl);
+  localStorage.setItem("retailos-accent", hex);
+}
+
+function applyFontSize(size: string) {
+  const map: Record<string, string> = { Compact: "13px", Normal: "15px", Comfortable: "17px" };
+  document.documentElement.style.fontSize = map[size] || "15px";
+  localStorage.setItem("retailos-fontsize", size);
+}
+
 // ── Main Component ──────────────────────────────────────────────────────
 
 export default function SettingsPage() {
@@ -30,7 +104,7 @@ export default function SettingsPage() {
     businessType: "Retail/E-commerce",
     currency: "USD ($)",
     timezone: "UTC-5 (EST)",
-    theme: "Midnight Purple",
+    theme: "Claude Classic",
     accentColor: "#8b5cf6",
     fontSize: "Normal",
     sidebarStyle: "Full labels",
@@ -40,7 +114,7 @@ export default function SettingsPage() {
     emailLowStock: true,
     emailLargeOrders: true,
     aiPersonality: "Friendly",
-    aiModel: "Claude 3.5 Sonnet",
+    aiModel: "GPT-4 Turbo",
   });
 
   // Action: Add Toast
@@ -52,31 +126,41 @@ export default function SettingsPage() {
     }, 3000);
   };
 
-  // Action: Handle Change (Immediate Save)
+  // Action: Handle Change — applies CSS immediately
   const handleChange = (key: string, value: any) => {
     setSettings(prev => ({ ...prev, [key]: value }));
-    addToast(`${key.replace(/([A-Z])/g, ' $1').toLowerCase()} updated`);
-    
+
     if (key === "theme") {
-      if (value === "Claude Charcoal") {
-        document.documentElement.classList.add("dark");
-        localStorage.setItem("retailos-theme", "dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-        localStorage.setItem("retailos-theme", "light");
-      }
+      applyTheme(value);
+      addToast(`Theme applied: ${value}`);
+    } else if (key === "accentColor") {
+      applyAccent(value);
+      addToast("Accent color updated");
+    } else if (key === "fontSize") {
+      applyFontSize(value);
+      addToast(`Font size: ${value}`);
+    } else {
+      addToast(`${key.replace(/([A-Z])/g, ' $1').toLowerCase()} updated`);
     }
   };
 
+  // Rehydrate from localStorage on mount
   useEffect(() => {
-    // Check local storage or system preference on mount
     const savedTheme = localStorage.getItem("retailos-theme");
-    if (savedTheme === "dark") {
-      setSettings(prev => ({ ...prev, theme: "Claude Charcoal" }));
-      document.documentElement.classList.add("dark");
-    } else if (savedTheme === "light") {
-      setSettings(prev => ({ ...prev, theme: "Claude Classic" }));
-      document.documentElement.classList.remove("dark");
+    const savedAccent = localStorage.getItem("retailos-accent");
+    const savedFont = localStorage.getItem("retailos-fontsize");
+
+    if (savedTheme && THEME_VARS[savedTheme]) {
+      applyTheme(savedTheme);
+      setSettings(prev => ({ ...prev, theme: savedTheme }));
+    }
+    if (savedAccent && ACCENT_HSL[savedAccent]) {
+      applyAccent(savedAccent);
+      setSettings(prev => ({ ...prev, accentColor: savedAccent }));
+    }
+    if (savedFont) {
+      applyFontSize(savedFont);
+      setSettings(prev => ({ ...prev, fontSize: savedFont }));
     }
   }, []);
 

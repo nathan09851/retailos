@@ -7,13 +7,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 const OrderDetailSlideover = () => {
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline">Open</Button>
+      <SheetTrigger>
+        <Button variant="outline" size="sm" className="rounded-xl border-border/50 hover:bg-primary/5 hover:text-primary transition-colors">
+          View Details
+        </Button>
       </SheetTrigger>
       <SheetContent className="w-[400px] sm:w-[540px]">
         <SheetHeader>

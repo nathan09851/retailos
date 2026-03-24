@@ -47,16 +47,25 @@ export default function WaterfallChart({ data }: WaterfallChartProps) {
   return (
     <div className="bg-card border border-border rounded-2xl p-6">
       <h3 className="font-bold text-sm mb-4">Cash Flow Waterfall (Current Month)</h3>
-      <ResponsiveContainer width="100%" height={240}>
-        <BarChart data={bars} margin={{ top: 5, right: 10, left: 0, bottom: 0 }} barCategoryGap="25%">
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-          <XAxis dataKey="name" tick={{ fontSize: 10, fill: "#888" }} axisLine={false} tickLine={false} />
+      <ResponsiveContainer width="100%" height={280}>
+        <BarChart data={bars} margin={{ top: 12, right: 20, left: 10, bottom: 30 }} barCategoryGap="25%">
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" vertical={false} />
+          <XAxis
+            dataKey="name"
+            tick={{ fontSize: 10, fill: "#888" }}
+            axisLine={false}
+            tickLine={false}
+            angle={-30}
+            textAnchor="end"
+            interval={0}
+            height={48}
+          />
           <YAxis
             tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
             tick={{ fontSize: 11, fill: "#888" }}
             axisLine={false}
             tickLine={false}
-            width={48}
+            width={55}
           />
           <Tooltip content={<CustomTooltip />} />
           {/* Invisible base bar to lift the visible bar */}
@@ -79,6 +88,7 @@ export default function WaterfallChart({ data }: WaterfallChartProps) {
           <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)" />
         </BarChart>
       </ResponsiveContainer>
+
 
       {/* Legend */}
       <div className="flex items-center gap-5 mt-3 justify-center text-xs text-muted-foreground">

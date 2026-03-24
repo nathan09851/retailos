@@ -14,6 +14,7 @@ import { TextShimmer } from '@/components/ui/text-shimmer';
 import { BentoGrid, BentoCard } from '@/components/ui/bento-grid';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   TrendingUp,
   Users,
@@ -91,6 +92,7 @@ interface Activity {
 }
 
 const PremiumDashboard: React.FC = () => {
+  const router = useRouter();
   const [titleNumber, setTitleNumber] = useState(0);
   const titles = useMemo(
     () => ["fast", "intelligent", "modular", "secure", "beautiful"],
@@ -184,32 +186,55 @@ const PremiumDashboard: React.FC = () => {
       description: "Financials",
       short: "⌘R",
       end: "Analytics",
+      href: "/dashboard/financials",
     },
     {
       id: "2",
       label: "Check Low Stock",
       icon: <PackageCheck className="h-4 w-4 text-orange-500" />,
-      description: "Inventory",
+      description: "Inventory alerts",
       short: "⌘I",
-      end: "Action",
+      end: "Inventory",
+      href: "/dashboard/inventory",
     },
     {
       id: "3",
       label: "Ask AI Assistant",
       icon: <BrainCircuit className="h-4 w-4 text-purple-500" />,
-      description: "GPT-4 Retail Model",
-      short: "⌘Enter",
+      description: "Voice & text agent",
+      short: "⌘K",
       end: "AI",
+      href: "/dashboard/ai",
     },
     {
       id: "4",
-      label: "Customer Demographics",
+      label: "Customer Analytics",
       icon: <PieChart className="h-4 w-4 text-green-500" />,
-      description: "Insights",
-      short: "",
-      end: "Reports",
+      description: "CRM & demographics",
+      short: "⌘U",
+      end: "Customers",
+      href: "/dashboard/customers",
+    },
+    {
+      id: "5",
+      label: "Log a Transaction",
+      icon: <LineChart className="h-4 w-4 text-emerald-500" />,
+      description: "Add income or expense",
+      short: "⌘T",
+      end: "Finance",
+      href: "/dashboard/financials",
+    },
+    {
+      id: "6",
+      label: "Open Orders",
+      icon: <PackageCheck className="h-4 w-4 text-amber-500" />,
+      description: "View & manage orders",
+      short: "⌘O",
+      end: "Orders",
+      href: "/dashboard/orders",
     },
   ];
+
 
   const bentoFeatures = [
     {
@@ -266,9 +291,7 @@ const PremiumDashboard: React.FC = () => {
       <Card className="border-border/50 bg-gradient-to-br from-primary/5 to-transparent overflow-hidden">
         <CardContent className="p-12">
           <div className="flex gap-8 items-center justify-center flex-col">
-            <div>
-              <InteractiveHoverButton text="RetailOS v2.0" className="w-40 pointer-events-none" />
-            </div>
+
             <div className="flex gap-4 flex-col">
               <h1 className="text-4xl md:text-6xl max-w-2xl tracking-tighter text-center font-regular">
                 <span className="text-foreground">RetailOS is remarkably</span>
@@ -358,28 +381,40 @@ const PremiumDashboard: React.FC = () => {
                 <TabsTrigger value="customers">Customers</TabsTrigger>
               </TabsList>
               <TabsContent value="revenue" className="space-y-4">
-                <div className="h-[300px] flex flex-col items-center justify-center bg-muted/10 rounded-lg border border-border/50 transition-colors">
-                  <div className="text-center space-y-4">
-                    <BarChart3 className="h-12 w-12 mx-auto text-primary/40 animate-pulse" />
-                    <p className="text-sm font-medium text-muted-foreground">Revenue charts building...</p>
+                <Link href="/dashboard/financials">
+                  <div className="h-[300px] flex flex-col items-center justify-center bg-muted/10 rounded-lg border border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all cursor-pointer group">
+                    <div className="text-center space-y-3">
+                      <BarChart3 className="h-12 w-12 mx-auto text-primary/60 group-hover:text-primary transition-colors" />
+                      <p className="text-base font-semibold text-foreground">Revenue & P&L Report</p>
+                      <p className="text-sm text-muted-foreground max-w-xs">Track monthly revenue, expenses, gross profit and net margins across all channels.</p>
+                      <Button size="sm" className="mt-2">View Financials →</Button>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </TabsContent>
               <TabsContent value="orders" className="space-y-4">
-                 <div className="h-[300px] flex flex-col items-center justify-center bg-muted/10 rounded-lg border border-border/50 transition-colors">
-                  <div className="text-center space-y-4">
-                    <ShoppingCart className="h-12 w-12 mx-auto text-primary/40 animate-pulse" />
-                    <p className="text-sm font-medium text-muted-foreground">Order volume syncing...</p>
+                <Link href="/dashboard/orders">
+                  <div className="h-[300px] flex flex-col items-center justify-center bg-muted/10 rounded-lg border border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all cursor-pointer group">
+                    <div className="text-center space-y-3">
+                      <ShoppingCart className="h-12 w-12 mx-auto text-primary/60 group-hover:text-primary transition-colors" />
+                      <p className="text-base font-semibold text-foreground">Order Management</p>
+                      <p className="text-sm text-muted-foreground max-w-xs">View, filter and manage all orders. Track fulfillment status and customer order history.</p>
+                      <Button size="sm" className="mt-2">View Orders →</Button>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </TabsContent>
               <TabsContent value="customers" className="space-y-4">
-                <div className="h-[300px] flex flex-col items-center justify-center bg-muted/10 rounded-lg border border-border/50 transition-colors">
-                  <div className="text-center space-y-4">
-                    <Users className="h-12 w-12 mx-auto text-primary/40 animate-pulse" />
-                    <p className="text-sm font-medium text-muted-foreground">Customer retention modeling...</p>
+                <Link href="/dashboard/customers">
+                  <div className="h-[300px] flex flex-col items-center justify-center bg-muted/10 rounded-lg border border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all cursor-pointer group">
+                    <div className="text-center space-y-3">
+                      <Users className="h-12 w-12 mx-auto text-primary/60 group-hover:text-primary transition-colors" />
+                      <p className="text-base font-semibold text-foreground">Customer Analytics</p>
+                      <p className="text-sm text-muted-foreground max-w-xs">Explore customer segments, lifetime value, retention rates and CRM activity logs.</p>
+                      <Button size="sm" className="mt-2">View Customers →</Button>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </TabsContent>
             </Tabs>
           </CardContent>

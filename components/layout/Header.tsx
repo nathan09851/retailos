@@ -35,28 +35,46 @@ const Header = () => {
       id: "2",
       label: "Check Low Stock",
       icon: <PackageCheck className="h-4 w-4 text-orange-500" />,
-      description: "Inventory",
+      description: "Inventory alerts",
       short: "⌘I",
-      end: "Action",
+      end: "Inventory",
       href: "/dashboard/inventory"
     },
     {
       id: "3",
       label: "Ask AI Assistant",
       icon: <BrainCircuit className="h-4 w-4 text-purple-500" />,
-      description: "GPT-4 Retail Model",
-      short: "⌘Enter",
+      description: "Voice & text agent",
+      short: "⌘K",
       end: "AI",
       href: "/dashboard/ai"
     },
     {
       id: "4",
-      label: "Customer Demographics",
+      label: "Customer Analytics",
       icon: <PieChart className="h-4 w-4 text-green-500" />,
-      description: "Insights",
-      short: "",
-      end: "Reports",
+      description: "CRM & demographics",
+      short: "⌘U",
+      end: "Customers",
       href: "/dashboard/customers"
+    },
+    {
+      id: "5",
+      label: "Log a Transaction",
+      icon: <LineChart className="h-4 w-4 text-emerald-500" />,
+      description: "Add income or expense",
+      short: "⌘T",
+      end: "Finance",
+      href: "/dashboard/financials"
+    },
+    {
+      id: "6",
+      label: "Open Orders",
+      icon: <PackageCheck className="h-4 w-4 text-amber-500" />,
+      description: "View & manage orders",
+      short: "⌘O",
+      end: "Orders",
+      href: "/dashboard/orders"
     },
   ];
 
@@ -92,7 +110,10 @@ const Header = () => {
             </button>
           </div>
           <div className="h-8 w-[1.5px] bg-border/40 mx-1" />
-          <button className="flex items-center gap-3 pl-2 group transition-all duration-500 hover:scale-105">
+          <button
+            onClick={() => router.push("/dashboard/settings")}
+            className="flex items-center gap-3 pl-2 group transition-all duration-500 hover:scale-105"
+          >
             <div className="flex flex-col items-end mr-1">
               <span className="text-xs font-black text-foreground tracking-tight group-hover:text-primary transition-colors">Admin Persona</span>
               <span className="text-[10px] text-muted-foreground/60 font-medium">Supervisor</span>

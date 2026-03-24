@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
 
 const steps = [
   { id: 1, title: "Select Customer" },
@@ -24,8 +25,9 @@ const NewOrderModal = () => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button>New Order</Button>
+      <DialogTrigger className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium h-9 px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground shadow-md transition-all active:scale-95 space-x-2 rounded-xl focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+        <PlusCircle className="mr-2 h-4 w-4" />
+        New Order
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

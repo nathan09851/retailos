@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend,
+  PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
 } from "recharts";
 import { ExpenseCategory } from "./types";
 
@@ -11,29 +11,13 @@ interface ExpenseDonutProps {
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (!active || !payload?.length) return null;
-  const { name, value } = payload[0].payload;
-  const total = payload[0].payload.total;
+  const { name, value, total } = payload[0].payload;
   return (
     <div className="bg-card border border-border rounded-xl px-4 py-3 shadow-xl text-sm">
       <p className="font-semibold">{name}</p>
       <p className="text-muted-foreground">${value.toLocaleString()}</p>
       <p className="text-xs text-muted-foreground">{((value / total) * 100).toFixed(1)}% of total</p>
     </div>
-  );
-};
-
-const renderCustomLabel = ({
-  cx, cy, midAngle, innerRadius, outerRadius, percent,
-}: any) => {
-  if (percent < 0.06) return null;
-  const RADIAN = Math.PI / 180;
-  const r = innerRadius + (outerRadius - innerRadius) * 0.6;
-  const x = cx + r * Math.cos(-midAngle * RADIAN);
-  const y = cy + r * Math.sin(-midAngle * RADIAN);
-  return (
-    <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={11} fontWeight={600}>
-      {`${(percent * 100).toFixed(0)}%`}
-    </text>
   );
 };
 
@@ -45,18 +29,17 @@ export default function ExpenseDonut({ data }: ExpenseDonutProps) {
     <div className="bg-card border border-border rounded-2xl p-6">
       <h3 className="font-bold text-sm mb-4">Expense Breakdown</h3>
       <div className="flex flex-col items-center">
-        <ResponsiveContainer width="100%" height={220}>
+        <ResponsiveContainer width="100%" height={200}>
           <PieChart>
             <Pie
               data={enriched}
               cx="50%"
               cy="50%"
-              innerRadius={60}
-              outerRadius={90}
+              innerRadius={58}
+              outerRadius={88}
               paddingAngle={3}
               dataKey="value"
               labelLine={false}
-              label={renderCustomLabel}
               isAnimationActive={true}
               animationBegin={200}
               animationDuration={900}
@@ -69,21 +52,23 @@ export default function ExpenseDonut({ data }: ExpenseDonutProps) {
           </PieChart>
         </ResponsiveContainer>
 
-        {/* Legend */}
-        <div className="w-full grid grid-cols-2 gap-x-4 gap-y-1.5 mt-1">
+        {/* Center total */}
+        <div className="text-center -mt-2 mb-4">
+          <p className="text-xs text-muted-foreground">Total Expenses</p>
+          <p className="text-lg font-bold">${total.toLocaleString()}</p>
+        </div>
+
+        {/* Legend with % */}
+        <div className="w-full grid grid-cols-2 gap-x-4 gap-y-2">
           {enriched.map((d) => (
             <div key={d.name} className="flex items-center gap-2 text-xs">
               <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: d.color }} />
-              <span className="text-muted-foreground truncate">{d.name}</span>
-              <span className="font-semibold ml-auto">${(d.value / 1000).toFixed(1)}k</span>
+              <span className="text-muted-foreground truncate flex-1">{d.name}</span>
+              <span className="font-semibold text-foreground ml-auto whitespace-nowrap">
+                {((d.value / total) * 100).toFixed(0)}%
+              </span>
             </div>
           ))}
-        </div>
-
-        {/* Center total */}
-        <div className="text-center mt-3">
-          <p className="text-xs text-muted-foreground">Total Expenses</p>
-          <p className="text-lg font-bold">${total.toLocaleString()}</p>
         </div>
       </div>
     </div>
