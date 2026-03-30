@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CalendarDays, ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
 
@@ -36,9 +36,18 @@ export default function FinancialCalendarPage() {
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
-  const [events, setEvents] = useState<CalEvent[]>(INITIAL_EVENTS);
+  const [events, setEvents] = useState<CalEvent[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [newEvent, setNewEvent] = useState({ date: "", title: "", type: "payroll" as EventType, amount: "" });
+
+  useEffect(() => {
+    fetch("/api/financial-events")
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) setEvents(data);
+      })
+      .catch(err => console.error("Calendar load error:", err));
+  }, []);
 
   const prev = () => { if (month === 0) { setYear(y=>y-1); setMonth(11); } else setMonth(m=>m-1); };
   const next = () => { if (month === 11) { setYear(y=>y+1); setMonth(0); } else setMonth(m=>m+1); };
@@ -50,11 +59,36 @@ export default function FinancialCalendarPage() {
   const eventsForDate = (d: number) => events.filter(e => e.date === `${year}-${pad(month+1)}-${pad(d)}`);
   const upcoming = events.filter(e => e.date >= today.toISOString().slice(0,10)).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,8);
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!newEvent.date || !newEvent.title) return;
-    setEvents(prev => [...prev, { id: Math.random().toString(36).slice(2), date: newEvent.date, title: newEvent.title, type: newEvent.type, amount: newEvent.amount ? Number(newEvent.amount) : undefined }]);
+    
+    // Store temporarily in case API call fails
+    const payload = {
+      date: newEvent.date,
+      title: newEvent.title,
+      type: newEvent.type,
+      amount: newEvent.amount ? Number(newEvent.amount) : null
+    };
+
+    // Close modal immediately for snappy UI
     setNewEvent({ date:"", title:"", type:"payroll", amount:"" });
     setShowModal(false);
+
+    try {
+      const res = await fetch("/api/financial-events", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        const savedEvent = await res.json();
+        setEvents(prev => [...prev, savedEvent]);
+      } else {
+        console.error("Failed to save financial event.");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

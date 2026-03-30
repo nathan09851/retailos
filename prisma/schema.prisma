@@ -104,3 +104,13 @@ model ReportSchedule {
   dayOfWeek Int?     // 0-6
   createdAt DateTime @default(now())
 }
+
+model FinancialEvent {
+  id        String   @id @default(cuid())
+  date      String
+  title     String
+  type      String
+  amount    Float?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
